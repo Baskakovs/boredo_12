@@ -14,10 +14,17 @@ geographies = ["USA", "UK", "Germany", "China", "France", "Japan", "EU", "Poland
 puts "Clearing existing data..."
 puts "Seeding the database..."
 
-geographies = Geography.all
+Geography.destroy_all
+Category.destroy_all
+Title.destroy_all
+Post.destroy_all
+
 
 geographies.each do |geography|
-    Geography.create(name: geography)
+    geo = Geography.create(name: geography)
+    5.times do
+        Category.create(name: Faker::Lorem.words(number: 2).join(' '), geography_id: geo.id)
+    end
 end
 
 categories = Category.all
@@ -29,9 +36,5 @@ categories.each do |category|
   end
 end
 titles = Title.all
-
-titles.each do |title|
-  Post.create(text: Faker::Lorem.paragraph(sentence_count: 3), title_id: title.id, geography_id: title.geography_id, category_id: title.category_id, user_id: User.all.sample.id)
-end
 
 puts "Done seeding!"
