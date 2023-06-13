@@ -1,3 +1,3 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :email, :date_of_birth, :password_digest, :google
+  attributes :id, :name, :email, :date_of_birth, :google
 end
