@@ -14,6 +14,7 @@ import { setErrors } from "../slices/errorsSlice"
 
 import { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { setCountrySelected } from "../slices/searchSlice";
 
 const Box = styled(Grid)`
   display: flex;
@@ -185,6 +186,9 @@ fetch(`/categories/${categorySelected.id}/titles`, {
         }else{
             res.json().then((errors) => {
                 dispatch(setErrors(errors.errors))
+                dispatch(setCountrySelected(false))
+                dispatch(setCategorySelected(false))
+                dispatch(setTitleSelected(false))
             })
         }
         })

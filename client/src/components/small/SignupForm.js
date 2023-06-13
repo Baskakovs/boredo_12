@@ -31,7 +31,7 @@ function SignUpForm(){
     console.log(signUpForm, "signUpForm")
     const history = useHistory();
     function handleNext() {
-        fetch("/signup", {
+        fetch("/users", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -45,12 +45,12 @@ function SignUpForm(){
             })
         })
             .then((res) => {
-            if (res.ok) {
+            if(res.ok) {
                 res.json().then((user) => {
                     dispatch(setUser(user))
                     dispatch(setErrors([]))
-                    history.push("/");
-                });
+                    history.push("/")
+                })
             }else{
                 res.json().then((errors) => {
                     dispatch(setErrors(errors.errors))

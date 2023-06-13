@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   resources :sessions
   resources :subcomments
   resources :comments
+  post '/users' , to: 'users#create'
   patch '/users/update_password', to: 'users#update_password'
   resources :users
-  post 'users/google', to: 'users#google_oauth'
+  post '/users/google', to: 'users#google_oauth'
   resources :users, only: [:create, :show] do
     resources :posts, only: [:index]
   end
