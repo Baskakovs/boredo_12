@@ -35,7 +35,7 @@ function App() {
     <Router>
       <Switch>
       {
-        !user ?
+        user ?
         <Login/>
         :
         <>
