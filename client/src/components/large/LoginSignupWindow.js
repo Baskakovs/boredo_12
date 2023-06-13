@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import LoginForm from "../small/LoginForm"
 import SignUpForm from "../small/SignupForm"
-import Divider from "../small/Divider";
 import AlternativeLogin from "../large/AlternativeLogin";
 import NoBorderBlueButton from "../small/NoBorderBlueButton";
 

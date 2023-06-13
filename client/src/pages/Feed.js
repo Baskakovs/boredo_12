@@ -46,6 +46,7 @@ function Feed(){
 
     //fetching the initial feed of 15 random posts
     const dispatch = useDispatch();
+    
     useEffect(() => {
         fetch(`posts_first`,
         {
