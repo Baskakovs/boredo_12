@@ -65,4 +65,4 @@ class PostsController < ApplicationController
         render json: { errors: e.record.errors }, status: :record_invalid
     end
 
-ends
+end
