@@ -47,41 +47,41 @@ function LoginSignupWindow({children}){
         dispatch(setLogin(!login))
     }
 
-    // const signInCallback = (result) => {
-    //     if (result.credential) {
-    //       const params = { token: result.credential };
-    //       fetch(`/users/google`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(params),
-    //       })
-    //       .then((res) => {if(res.ok){
-    //         res.json().then((data) => {
-    //             dispatch(setUser(data))
-    //             history.push("/")
-    //         })
-    //       }
-    //     })
-    //     }
-    // }
+    const signInCallback = (result) => {
+        if (result.credential) {
+          const params = { token: result.credential };
+          fetch(`/users/google`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(params),
+          })
+          .then((res) => {if(res.ok){
+            res.json().then((data) => {
+                dispatch(setUser(data))
+                history.push("/")
+            })
+          }
+        })
+        }
+    }
 
-    // useEffect(() => {
+    useEffect(() => {
         /* global google */
-        // if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
-        //     google.accounts.id.initialize({
-        //     client_id:"767405110986-cl5aotldrqd1k03p18tsc7apq3leedpr.apps.googleusercontent.com",
-        //     callback: signInCallback,
-        //     cancel_on_tap_outside: false,
-        //     })
-            // google.accounts.id.prompt() // prompt the user to sign in with a google popup
-    //         google.accounts.id.renderButton(document.getElementById("signInDiv"), {
-    //         theme: "outline",
-    //         size: "large",
-    //         });
-    //     }   
-    //   }, []);
+        if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+            google.accounts.id.initialize({
+            client_id:"767405110986-cl5aotldrqd1k03p18tsc7apq3leedpr.apps.googleusercontent.com",
+            callback: signInCallback,
+            cancel_on_tap_outside: false,
+            })
+            google.accounts.id.prompt() // prompt the user to sign in with a google popup
+            google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+            theme: "outline",
+            size: "large",
+            });
+        }   
+      }, []);
 
     return(
         <Box>
