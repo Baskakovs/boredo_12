@@ -5,7 +5,6 @@ class CreateSubcomments < ActiveRecord::Migration[6.1]
       t.integer :comment_id
       t.integer :post_id
       t.string :text
-      t.string :—no-testframework
 
       t.timestamps
     end

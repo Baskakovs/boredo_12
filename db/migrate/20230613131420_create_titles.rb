@@ -4,7 +4,6 @@ class CreateTitles < ActiveRecord::Migration[6.1]
       t.string :name
       t.integer :geography_id
       t.integer :category_id
-      t.string :—no-testframework
 
       t.timestamps
     end

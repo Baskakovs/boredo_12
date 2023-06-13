@@ -6,7 +6,6 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.date :date_of_birth
       t.string :password_digest
       t.boolean :google
-      t.string :—no-testframework
 
       t.timestamps
     end

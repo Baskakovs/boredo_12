@@ -6,7 +6,6 @@ class CreatePosts < ActiveRecord::Migration[6.1]
       t.integer :category_id
       t.integer :geography_id
       t.integer :title_id
-      t.string :—no-testframework
 
       t.timestamps
     end
