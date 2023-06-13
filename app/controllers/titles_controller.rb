@@ -6,7 +6,6 @@ class TitlesController < ApplicationController
     end
 
     def index
-        # byebug
         category = Category.find(params[:category_id])
         render json: category.titles, status: 200
     end
