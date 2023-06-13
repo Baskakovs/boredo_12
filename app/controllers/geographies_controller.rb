@@ -1,2 +1,0 @@
-class GeographiesController < ApplicationController
-end
