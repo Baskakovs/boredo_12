@@ -1,21 +1,36 @@
 Rails.application.routes.draw do
-  resources :titles
-  # namespace :api do
-    resources :users
-    resources :subcomments
-    resources :sessions
-    resources :posts
-    resources :comments
-    resources :categories
-    resources :names
-    get "/me", to: "users#show"
-    resources :geographies
-    resources :recipes, only: [:index, :create]
-    post "/signup", to: "users#create"
-    get "/me", to: "users#show"
-    post "/login", to: "sessions#create"
-    delete "/logout", to: "sessions#destroy"
-  # end
+  get '/me', to: 'users#show' 
+  resources :sessions
+  resources :subcomments
+  resources :comments
+  patch '/users/update_password', to: 'users#update_password'
+  resources :users
+  post 'users/google', to: 'users#google_oauth'
+  resources :users, only: [:create, :show] do
+    resources :posts, only: [:index]
+  end
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+  get '/me', to: 'users#show' 
+  resources :posts
+  get '/posts_first', to: 'posts#first'
+  get '/posts/country/:id', to: 'posts#country'
+  get '/posts/category/:id', to: 'posts#category'
+  get 'posts/title/:id', to: 'posts#title'
 
+  resources :titles, only: [:index, :show]
+
+  resources :geographies, only: [:index, :show] do
+    resources :categories, only: [:index]
+  end 
+
+  resources :categories, only: [:index, :show] do
+    resources :titles, only: [:index]
+  end
+
+  get '/geographies', to: 'geographies#index'
+  # get '/geographies/:id', to: 'categories#index_by_country'
+  resources :categories, only: [:index]
+  
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
