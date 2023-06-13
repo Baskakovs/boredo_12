@@ -74,7 +74,7 @@ function LoginSignupWindow({children}){
             callback: signInCallback,
             cancel_on_tap_outside: false,
             })
-            google.accounts.id.prompt() // prompt the user to sign in with a google popup
+            // google.accounts.id.prompt() // prompt the user to sign in with a google popup
             google.accounts.id.renderButton(document.getElementById("signInDiv"), {
             theme: "outline",
             size: "large",
