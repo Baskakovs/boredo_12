@@ -31,7 +31,7 @@ function SignUpForm(){
     console.log(signUpForm, "signUpForm")
     const history = useHistory();
     function handleNext() {
-        fetch("/users", {
+        fetch("/signup", {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
