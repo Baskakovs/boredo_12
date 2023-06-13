@@ -1,0 +1,2 @@
+class SubcommentsController < ApplicationController
+end
