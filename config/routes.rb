@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :titles
   # namespace :api do
     resources :users
     resources :subcomments
