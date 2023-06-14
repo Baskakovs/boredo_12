@@ -17,7 +17,7 @@ puts "Seeding the database..."
 Geography.destroy_all
 Category.destroy_all
 Title.destroy_all
-Post.destroy_all
+# Post.destroy_all
 
 
 geographies.each do |geography|
