@@ -39,7 +39,6 @@ const writeSlice = createSlice({
             state.titlesList = action.payload
         },
         setGeographySelected(state, action){
-            console.log("hi")
             state.geography_selected = action.payload
             if(action.payload !== undefined){
                 state.writeForm.geography_id = action.payload.id
@@ -72,6 +71,9 @@ const writeSlice = createSlice({
                 text: "",
                 published: true
             }
+            state.geography_selected = false
+            state.category_selected = false
+            state.title_selected = false
         }
     }
 })

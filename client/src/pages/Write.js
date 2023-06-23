@@ -87,6 +87,7 @@ function Write(){
     const user_id = useSelector((state) => state.login.user.id)
 
     useEffect(()=>{
+        dispatch(resetWriteForm())
         fetch(`/geographies`,{
             method: "GET",
             headers: {
@@ -95,7 +96,6 @@ function Write(){
         })
         .then((res) =>{ if(res.ok){
             res.json().then((geographies) => {
-                console.log(geographies, "11")
                 dispatch(setGeographiesList(geographies))
             })
         }
@@ -182,7 +182,7 @@ fetch(`/categories/${categorySelected.id}/titles`, {
         .then((res) =>{ if(res.ok){
             res.json().then((post) => {
                 history.push(`/`)
-                dispatch(resetWriteForm())
+                dispatch(resetWriteForm({}))
             })
         }else{
             res.json().then((errors) => {
