@@ -68,7 +68,9 @@ function Feed(){
 
     //fetching the feed when a country is selected
     useEffect(() => {
+      console.log("1")
       if(countrySelected !== false && categorySelected === false){
+        console.log("2")
         fetch(`/posts/country/${countrySelected}`,
         {
           method: 'GET',
@@ -108,11 +110,11 @@ function Feed(){
         }
         )
       }
-    }, [categorySelected, titleSelected]);
+    }, [categorySelected == false, titleSelected]);
 
       // fetching the feed when a category is selected
       useEffect(() => {
-        if(countrySelected !== false){
+        if(countrySelected !== false && categorySelected !== false){
           fetch(`/posts/title/${titleSelected}`,
           {
             method: 'GET',
@@ -132,7 +134,6 @@ function Feed(){
         }
       }, [titleSelected]);
 
-    //fetching the feed when a title is selected
     const feed = useSelector((state) => state.feed.feed)
     return(
         <Box>

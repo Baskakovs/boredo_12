@@ -200,11 +200,11 @@ function AccountSettings(){
         .then(res=>{ if(res.ok) {
             res.json().then(user=>{
                 setIsUpdatePassword(!isUpdatePassword)
+                setErrors([])
             })
             }else{
                 res.json().then(err=>{
                     dispatch(setErrors(err.errors))
-                    console.log(err, "errors")
                 })
         }
     })

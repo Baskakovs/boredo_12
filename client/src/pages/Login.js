@@ -4,6 +4,10 @@ import LoginSignupWindow from '../components/large/LoginSignupWindow';
 import BackgroundImage from '../images/BusanImage.png'
 import Errors from '../components/small/Errors';
 
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { setErrors } from "../slices/errorsSlice"
+
 const Box = styled.div`
   display: flex;
   position: relative;
@@ -69,6 +73,10 @@ const BoxLogin = styled.div`
 `
 
 const Login = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setErrors([]))
+  }, [dispatch])
   return (
     <Box>
       <ContentWrapper>

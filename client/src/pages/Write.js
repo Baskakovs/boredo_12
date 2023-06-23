@@ -62,7 +62,6 @@ const ViewArray = ['Publish', 'Archive']
 
 function Write(){
     const writeForm = useSelector((state) => state.write.writeForm)
-  console.log(writeForm, "writeForm")
     const dispatch = useDispatch()
     const history = useHistory()
 
