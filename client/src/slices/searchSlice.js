@@ -52,9 +52,16 @@ const searchSlice = createSlice({
         }else if(action.payload != state.categorySelected){
             state.titleSelected = action.payload
         }
+    },
+    resetSearch: (state) => {
+        state.countrySelected = false
+        state.categorySelected = false
+        state.titleSelected = false
+        state.categories = []
+        state.titles = []
     }
   },
 });
 
-export const { setCountries, setCountrySelected, setCategories, setCategorySelected, setTitleSelected, setTitles } = searchSlice.actions;
+export const { setCountries, setCountrySelected, setCategories, setCategorySelected, setTitleSelected, setTitles, resetSearch } = searchSlice.actions;
 export default searchSlice.reducer;

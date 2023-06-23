@@ -7,7 +7,7 @@ import SearchRow from "./SearchRow";
 //redux imports
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCountries, setCategories, setTitles, setCategorySelected } from '../../slices/searchSlice';
+import { setCountries, setCategories, setTitles, resetSearch } from '../../slices/searchSlice';
 import { setTitleSelected } from "../../slices/writeSlice";
 
 const SearchContainer = styled.div`
@@ -33,6 +33,7 @@ function Search(){
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(resetSearch())
     fetch(`/geographies`,{
       method: 'GET',
       headers: {
