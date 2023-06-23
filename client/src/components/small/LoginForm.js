@@ -49,6 +49,7 @@ function LoginForm(){
             if (res.ok) {
                 res.json().then((user) => {
                     dispatch(setUser(user))
+                    dispatch(setErrors([]))
                 });
             }else{
                 res.json().then((errors) => {

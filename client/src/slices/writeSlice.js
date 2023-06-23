@@ -62,9 +62,19 @@ const writeSlice = createSlice({
             }else{
                 state.writeForm.title_id = ""
             }
+        },
+        resetWriteForm(state){
+            state.writeForm = {
+                user_id: "",
+                geography_id: "",
+                category_id: "",
+                title_id: "",
+                text: "",
+                published: true
+            }
         }
     }
 })
 
-export const { setVisibility, setText, setGeographiesList, setCategoriesList, setTitlesList, setGeographySelected, setCategorySelected, setTitleSelected } = writeSlice.actions
+export const { setVisibility, setText, setGeographiesList, setCategoriesList, setTitlesList, setGeographySelected, setCategorySelected, setTitleSelected, resetWriteForm } = writeSlice.actions
 export default writeSlice.reducer

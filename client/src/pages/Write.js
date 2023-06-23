@@ -9,7 +9,7 @@ import Errors from "../components/small/Errors"
 
 //import redux
 import { useSelector, useDispatch } from "react-redux"
-import { setVisibility, setText, setGeographiesList, setGeographySelected, setCategoriesList, setCategorySelected, setTitlesList, setTitleSelected} from "../slices/writeSlice"
+import { setVisibility, setText, setGeographiesList, setGeographySelected, setCategoriesList, setCategorySelected, setTitlesList, setTitleSelected, resetWriteForm} from "../slices/writeSlice"
 import { setErrors } from "../slices/errorsSlice"
 
 import { useEffect, useState } from "react"
@@ -182,6 +182,7 @@ fetch(`/categories/${categorySelected.id}/titles`, {
         .then((res) =>{ if(res.ok){
             res.json().then((post) => {
                 history.push(`/`)
+                dispatch(resetWriteForm())
             })
         }else{
             res.json().then((errors) => {
