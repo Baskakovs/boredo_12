@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   resources :geographies, only: [:index, :show] do
     resources :categories, only: [:index] do
-      resources :titles, only: [:index]
+      resources :titles, only: [:index, :show]
     end
   end 
 
