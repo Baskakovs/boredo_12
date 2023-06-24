@@ -22,12 +22,10 @@ Rails.application.routes.draw do
   resources :titles, only: [:index, :show]
 
   resources :geographies, only: [:index, :show] do
-    resources :categories, only: [:index]
+    resources :categories, only: [:index] do
+      resources :titles, only: [:index]
+    end
   end 
-
-  resources :categories, only: [:index, :show] do
-    resources :titles, only: [:index]
-  end
 
   get '/geographies', to: 'geographies#index'
   # get '/geographies/:id', to: 'categories#index_by_country'

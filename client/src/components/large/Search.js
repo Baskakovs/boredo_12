@@ -80,8 +80,8 @@ const countrySelected = useSelector((state) => state.search.countrySelected);
 const categorySelected = useSelector((state) => state.search.categorySelected);
 
     useEffect(() => {
-        if(categorySelected != false){
-            fetch(`/categories/${categorySelected}/titles`,{
+        if(categorySelected !== false){
+            fetch(`/geographies/${countrySelected}/categories/${categorySelected}/titles`,{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
