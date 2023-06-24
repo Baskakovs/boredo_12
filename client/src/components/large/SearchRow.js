@@ -30,7 +30,7 @@ function SearchRow({ items, type }) {
     const [selectedItemId, setSelectedItemId] = useState(null);
   
     function handleItemClick(itemId) {
-      if (type == 'country') {
+      if (type === 'country') {
         dispatch(setCountrySelected(itemId))
       } else if (type === 'category') {
         dispatch(setCategorySelected(itemId));

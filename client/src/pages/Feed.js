@@ -46,91 +46,84 @@ function Feed(){
 
     //fetching the initial feed of 15 random posts
     const dispatch = useDispatch();
-    
-    useEffect(() => {
-        fetch(`posts_first`,
-        {
+    //fetching first 15 posts at the start of the page and whenever a country is unselected
+    useEffect(()=>{
+      if(countrySelected === false){
+        fetch(`/posts_first`,{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-          },
+          }
         })
-        .then(res =>{
+        .then(res=> {
           if(res.ok){
             return res.json()
           }
         })
         .then(data => {
           dispatch(setFeed(data))
-        }
-        )
-    }, []);
-
-    //fetching the feed when a country is selected
-    useEffect(() => {
-      if(countrySelected !== false && categorySelected === false){
-        fetch(`/posts/country/${countrySelected}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
         })
-        .then(res =>{
-          if(res.ok){
-            return res.json()
-          }
-        })
-        .then(data => {
-          dispatch(setFeed(data))
-        }
-        )
       }
-    }, [countrySelected, categorySelected]);
+    },[countrySelected])
 
-    //fetching the feed when a category is selected
+    //fetching posts based on country selected
     useEffect(() => {
-      if(countrySelected !== false && categorySelected !== false && titleSelected === false){
-        fetch(`/posts/category/${categorySelected}`,
-        {
+      if(countrySelected !== false && categorySelected === false && titleSelected == false){
+        fetch(`/posts/country/${countrySelected}`,{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-          },
+          }
         })
-        .then(res =>{
+        .then(res=> {
           if(res.ok){
             return res.json()
           }
         })
         .then(data => {
           dispatch(setFeed(data))
-        }
-        )
+        })
       }
-    }, [categorySelected == false, titleSelected]);
+    },[countrySelected, categorySelected])
 
-      // fetching the feed when a category is selected
-      useEffect(() => {
-        if(countrySelected !== false && categorySelected !== false){
-          fetch(`/posts/title/${titleSelected}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          })
-          .then(res =>{
-            if(res.ok){
-              return res.json()
-            }
-          })
-          .then(data => {
-            dispatch(setFeed(data))
+    //fetching posts based on category selected
+    useEffect(() => {
+      if(countrySelected !== false && categorySelected !== false && titleSelected == false){  fetch(`/posts/category/${categorySelected}`,{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
           }
-          )
-        }
-      }, [titleSelected]);
+        })
+        .then(res=> {
+          if(res.ok){
+            return res.json()
+          }
+        })
+        .then(data => {
+          dispatch(setFeed(data))
+        })
+      }
+    },[categorySelected, titleSelected])
+
+    //fetching posts based on title selected
+    useEffect(() => {
+      if(titleSelected !== false){
+        fetch(`/posts/title/${titleSelected}`,{
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(res=> {
+          if(res.ok){
+            return res.json()
+          }
+        })
+        .then(data => {
+          dispatch(setFeed(data))
+        })
+      }
+    },[titleSelected])
 
     const feed = useSelector((state) => state.feed.feed)
     return(
