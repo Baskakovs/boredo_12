@@ -155,11 +155,18 @@ fetch(`/categories/${categorySelected.id}/titles`, {
 
     const [validity, setValidity] = useState(false)
 
-    useEffect(()=>{
-      if(writeForm.text !== "" && writeForm.geography_id != "", writeForm.category_id !="" && writeForm.title_id !==""){
-        setValidity(true)
+    useEffect(() => {
+      if (
+        writeForm.text.length !== 0 &&
+        writeForm.geography_id !== "" &&
+        writeForm.category_id !== "" &&
+        writeForm.title_id !== ""
+      ) {
+        console.log(writeForm.text.length, "text length");
+        setValidity(true);
       }
-    },[writeForm])
+    }, [writeForm]);
+    
 
 
     function handlePublish(){

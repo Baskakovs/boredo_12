@@ -68,9 +68,7 @@ function Feed(){
 
     //fetching the feed when a country is selected
     useEffect(() => {
-      console.log("1")
       if(countrySelected !== false && categorySelected === false){
-        console.log("2")
         fetch(`/posts/country/${countrySelected}`,
         {
           method: 'GET',
