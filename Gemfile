@@ -53,3 +53,5 @@ gem "active_model_serializers", "~> 0.10.12"
 gem "faker", "~> 2.18.0"
 
 gem 'googleauth'
+
+gem 'random-password', '~> 0.1.2'

@@ -64,7 +64,7 @@ function Feed(){
           dispatch(setFeed(data))
         }
         )
-    }, [countrySelected]);
+    }, []);
 
     //fetching the feed when a country is selected
     useEffect(() => {
@@ -90,7 +90,7 @@ function Feed(){
 
     //fetching the feed when a category is selected
     useEffect(() => {
-      if(categorySelected !== false && titleSelected === false){
+      if(countrySelected !== false && categorySelected !== false && titleSelected === false){
         fetch(`/posts/category/${categorySelected}`,
         {
           method: 'GET',

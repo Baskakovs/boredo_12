@@ -204,7 +204,7 @@ function AccountSettings(){
             })
             }else{
                 res.json().then(err=>{
-                    dispatch(setErrors(err.errors))
+                    dispatch(setErrors(err))
                 })
         }
     })
@@ -236,6 +236,9 @@ function AccountSettings(){
             alignItems={"flex-end"}
             >
                 {
+                    !user.google ?
+                
+                (
                     !isUpdateMain ?
                     <UpdateButton 
                     text={"Update"} 
@@ -253,6 +256,9 @@ function AccountSettings(){
                     onClick={handleUpdateMainInfo}
                     />
                     </Row>
+                )
+                :
+                null
                 }
             </MethodBoxRow>
             <MethodBox>

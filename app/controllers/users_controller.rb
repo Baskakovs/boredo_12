@@ -1,5 +1,4 @@
 require 'googleauth'
-
 class UsersController < ApplicationController
   skip_before_action :authorize, only: :create
 
@@ -25,7 +24,7 @@ class UsersController < ApplicationController
     render json: @user
 rescue ActiveRecord::RecordInvalid => e
     unprocessable_entity(e)
-end
+  end
 
   def update_password
     @user = User.find_by(id: session[:user_id])
@@ -34,7 +33,7 @@ end
       @user.update!(password: params[:password])
       render json: @user
     else
-      unprocessable_entity(self)
+      render json: { errors: "Your old password is incorrect or your passwords do not match!" }, status: :unprocessable_entity
     end
   end
 
