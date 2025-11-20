@@ -68,7 +68,7 @@ function Feed(){
 
     //fetching posts based on country selected
     useEffect(() => {
-      if(countrySelected !== false && categorySelected === false && titleSelected == false){
+      if(countrySelected !== false && categorySelected === false && titleSelected === false){
         fetch(`/posts/country/${countrySelected}`,{
           method: 'GET',
           headers: {
@@ -84,11 +84,12 @@ function Feed(){
           dispatch(setFeed(data))
         })
       }
-    },[countrySelected, categorySelected])
+    },[countrySelected, categorySelected, titleSelected])
 
     //fetching posts based on category selected
     useEffect(() => {
-      if(countrySelected !== false && categorySelected !== false && titleSelected == false){  fetch(`/posts/category/${categorySelected}`,{
+      if(countrySelected !== false && categorySelected !== false && titleSelected === false){
+        fetch(`/posts/category/${categorySelected}`,{
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ function Feed(){
           dispatch(setFeed(data))
         })
       }
-    },[categorySelected, titleSelected])
+    },[countrySelected, categorySelected, titleSelected])
 
     //fetching posts based on title selected
     useEffect(() => {

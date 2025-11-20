@@ -7,7 +7,7 @@ import SearchRow from "./SearchRow";
 //redux imports
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCountries, setCategories, setTitles, resetSearch } from '../../slices/searchSlice';
+import { setAllCountries, setCategories, setTitles, resetSearch } from '../../slices/searchSlice';
 import { setTitleSelected } from "../../slices/writeSlice";
 
 const SearchContainer = styled.div`
@@ -46,9 +46,7 @@ function Search(){
       }
     })
     .then(data => {
-      data.forEach(countries => {
-        dispatch(setCountries(countries))
-      })
+      dispatch(setAllCountries(data))
     })
   },[dispatch])
 
@@ -80,7 +78,7 @@ const countrySelected = useSelector((state) => state.search.countrySelected);
 const categorySelected = useSelector((state) => state.search.categorySelected);
 
     useEffect(() => {
-        if(categorySelected !== false){
+        if(categorySelected !== false && countrySelected !== false){
             fetch(`/geographies/${countrySelected}/categories/${categorySelected}/titles`,{
                 method: 'GET',
                 headers: {
@@ -92,13 +90,12 @@ const categorySelected = useSelector((state) => state.search.categorySelected);
                     return res.json().then(
                         data => {
                             dispatch(setTitles(data))
-                            dispatch(setTitleSelected(true))
                         }
                     )
                 }
             })
         }
-    },[categorySelected])
+    },[categorySelected, countrySelected])
 
 // disabled for v1
 

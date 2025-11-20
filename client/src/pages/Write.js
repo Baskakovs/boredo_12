@@ -102,7 +102,7 @@ function Write(){
     },[])
 
     useEffect(() => {
-        if (geographySelected) {
+        if (geographySelected && geographySelected !== false) {
           fetch(`/geographies/${geographySelected.id}/categories`, {
             method: "GET",
             headers: {
@@ -116,11 +116,14 @@ function Write(){
                 })
               }
             })
+        } else {
+          // Clear categories when geography is deselected
+          dispatch(setCategoriesList([]))
         }
       }, [geographySelected])
 
       useEffect(() => {
-        if(geographySelected && categorySelected) {
+        if(geographySelected && geographySelected !== false && categorySelected && categorySelected !== false) {
 fetch(`/geographies/${geographySelected.id}/categories/${categorySelected.id}/titles`, {
             method: "GET",
             headers: {
@@ -134,22 +137,67 @@ fetch(`/geographies/${geographySelected.id}/categories/${categorySelected.id}/ti
                 })
               }
             })
+        } else {
+          // Clear titles when category is deselected
+          dispatch(setTitlesList([]))
         }
-      }, [categorySelected])
+      }, [categorySelected, geographySelected])
 
     function handleSelectChange(e){
         const { name, value } = e.target
-        if(name == "geography"){
-            let selectedGeography = geographiesList.find((geography) => geography.name == value && geography.id !== undefined)
-            dispatch(setGeographySelected(selectedGeography))
+        
+        if(name === "geography"){
+            if(!value || value.trim() === ""){
+                // Clear geography and dependent selections
+                dispatch(setGeographySelected(false))
+                dispatch(setCategorySelected(false))
+                dispatch(setTitleSelected(false))
+            } else {
+                let selectedGeography = geographiesList.find((geography) => geography.name === value && geography.id !== undefined)
+                if(selectedGeography){
+                    dispatch(setGeographySelected(selectedGeography))
+                    // Always reset dependent selections when geography changes
+                    dispatch(setCategorySelected(false))
+                    dispatch(setTitleSelected(false))
+                } else {
+                    // No match found - clear selection
+                    dispatch(setGeographySelected(false))
+                    dispatch(setCategorySelected(false))
+                    dispatch(setTitleSelected(false))
+                }
+            }
         }
-        if(name == "category"){
-            let selectedCategory = categoriesList.find((category) => category.name == value && category.id !== undefined)
-            dispatch(setCategorySelected(selectedCategory))
+        if(name === "category"){
+            if(!value || value.trim() === ""){
+                // Clear category and dependent selections
+                dispatch(setCategorySelected(false))
+                dispatch(setTitleSelected(false))
+            } else {
+                let selectedCategory = categoriesList.find((category) => category.name === value && category.id !== undefined)
+                if(selectedCategory){
+                    dispatch(setCategorySelected(selectedCategory))
+                    // Always reset title when category changes
+                    dispatch(setTitleSelected(false))
+                } else {
+                    // No match found - clear selection
+                    dispatch(setCategorySelected(false))
+                    dispatch(setTitleSelected(false))
+                }
+            }
         }
-        if(name == "title"){
-            let selectedTitle = titlesList.find((title) => title.name == value && title.id !== undefined)
-            dispatch(setTitleSelected(selectedTitle))
+        if(name === "title"){
+            if(!value || value.trim() === ""){
+                // Clear title
+                dispatch(setTitleSelected(false))
+            } else {
+                let selectedTitle = titlesList.find((title) => title.name === value && title.id !== undefined)
+                if(selectedTitle){
+                    dispatch(setTitleSelected(selectedTitle))
+                } else {
+                    // No match found - clear selection
+                    dispatch(setTitleSelected(false))
+                }
+            }
         }
     }
 
@@ -232,19 +280,19 @@ fetch(`/geographies/${geographySelected.id}/categories/${categorySelected.id}/ti
         justifyContent="start"
         >
         <SelectWithSearch
-        key={1}
+        key={`geography-${geographySelected ? geographySelected.id : 'none'}`}
         name="geography"
         options={geographiesList}
-        placeholder={"Geography"}
+        placeholder={geographySelected ? geographySelected.name : "Geography"}
         handleSelectChange={handleSelectChange}
         />
         {
             geographySelected !== false ?
             <SelectWithSearch
-            key={2}
+            key={`category-${categorySelected ? categorySelected.id : 'none'}`}
             name="category"
             options={categoriesList}
-            placeholder={"Category"}
+            placeholder={categorySelected ? categorySelected.name : "Category"}
             handleSelectChange={handleSelectChange}
             />
             :
@@ -253,10 +301,10 @@ fetch(`/geographies/${geographySelected.id}/categories/${categorySelected.id}/ti
         {
             categorySelected !== false ?
             <SelectWithSearch
-            key={3}
+            key={`title-${titleSelected ? titleSelected.id : 'none'}`}
             name="title"
             options={titlesList}
-            placeholder={"Title"}
+            placeholder={titleSelected ? titleSelected.name : "Title"}
             handleSelectChange={handleSelectChange}
             />
             :

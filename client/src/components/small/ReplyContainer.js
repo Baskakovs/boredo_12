@@ -29,7 +29,7 @@ const ButtonContainer = styled.div`
   margin-top: 8px;
 `
 
-function ReplyContainer({post_id, comment_id, action}) {
+function ReplyContainer({post_id, comment_id, action, onClose}) {
 
     const dispatch = useDispatch()
     const commentForm = useSelector((state) => state.further.commentForm)
@@ -52,8 +52,11 @@ function ReplyContainer({post_id, comment_id, action}) {
     const comments = useSelector((state) => state.further.post.comments)
 
     function handleSubmit() {
-        if(action === "comment") handleSubmitComment()
-        if(action === "subcomment") handleSubmitSubComment()
+        if(action === "comment") {
+          handleSubmitComment()
+        } else if(action === "subcomment") {
+          handleSubmitSubComment()
+        }
     }
 
     function handleSubmitComment() {
@@ -68,13 +71,27 @@ function ReplyContainer({post_id, comment_id, action}) {
           user_id: user_id,
         }),
       })
-      .then((res) => { if(res.ok){
-        res.json().then((comment) => {
-          const updatedComments = [comment, ...comments]
-          dispatch(setComments(updatedComments))
-          dispatch(setCommentForm({text: ""}))
-        })
-      }})
+      .then((res) => {
+        if(res.ok){
+          return res.json().then((comment) => {
+            const updatedComments = [comment, ...comments]
+            dispatch(setComments(updatedComments))
+            dispatch(setCommentForm({text: ""}))
+            if(onClose) {
+              onClose()
+            }
+          })
+        } else {
+          return res.json().then((error) => {
+            console.error("Error creating comment:", error)
+            alert("Failed to create comment. Please try again.")
+          })
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+        alert("Failed to create comment. Please try again.")
+      })
     }
 
     function handleSubmitSubComment() {
@@ -84,14 +101,17 @@ function ReplyContainer({post_id, comment_id, action}) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            text: subCommentForm.text,
-            comment_id: comment_id,
-            user_id: user_id,
+            subcomment: {
+              text: subCommentForm.text,
+              comment_id: comment_id,
+              user_id: user_id,
+              post_id: post_id
+            }
           }),
         })
           .then((res) => {
             if (res.ok) {
-              res.json().then((subcomment) => {
+              return res.json().then((subcomment) => {
                 const updatedComments = comments.map((comment) => {
                   if (comment.id === comment_id) {
                     return {
@@ -104,8 +124,20 @@ function ReplyContainer({post_id, comment_id, action}) {
                 });
                 dispatch(setComments(updatedComments))
                 dispatch(setSubcommentForm({text: ""}))
+                if(onClose) {
+                  onClose()
+                }
+              })
+            } else {
+              return res.json().then((error) => {
+                console.error("Error creating subcomment:", error)
+                alert("Failed to create reply. Please try again.")
               })
             }
+          })
+          .catch((error) => {
+            console.error("Error:", error)
+            alert("Failed to create reply. Please try again.")
           })
       }
 

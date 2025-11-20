@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_13_220348) do
+ActiveRecord::Schema.define(version: 2025_11_20_224428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "a_users", force: :cascade do |t|
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "admins", force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -30,10 +44,67 @@ ActiveRecord::Schema.define(version: 2023_06_13_220348) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "debts", force: :cascade do |t|
+    t.integer "payment_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "amount", precision: 10, scale: 2
+  end
+
   create_table "geographies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "joinauts", force: :cascade do |t|
+    t.integer "a_user_id"
+    t.integer "tab_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "joinuts", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "tab_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "a_user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.float "latitude"
+    t.float "longitude"
+    t.string "address_name"
+    t.string "building_number"
+    t.string "street"
+    t.string "city"
+    t.string "postcode"
+    t.integer "admin_id"
+    t.boolean "show"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "news", force: :cascade do |t|
+    t.string "image_src"
+    t.string "title"
+    t.string "description"
+    t.string "admin_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "date"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.text "description"
+    t.string "category"
+    t.integer "tab_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.decimal "amount", precision: 10, scale: 2
   end
 
   create_table "posts", force: :cascade do |t|
@@ -56,6 +127,12 @@ ActiveRecord::Schema.define(version: 2023_06_13_220348) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "tabs", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "titles", force: :cascade do |t|
     t.string "name"
     t.integer "geography_id"
@@ -64,14 +141,21 @@ ActiveRecord::Schema.define(version: 2023_06_13_220348) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "u_admins", force: :cascade do |t|
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
+    t.integer "age"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.string "email"
     t.string "password_digest"
     t.date "date_of_birth"
     t.boolean "google"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
 end

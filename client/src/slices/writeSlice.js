@@ -40,23 +40,31 @@ const writeSlice = createSlice({
         },
         setGeographySelected(state, action){
             state.geography_selected = action.payload
-            if(action.payload !== undefined){
+            if(action.payload !== false && action.payload !== undefined && action.payload !== null){
                 state.writeForm.geography_id = action.payload.id
             }else{
                 state.writeForm.geography_id = ""
+                // Clear dependent selections
+                state.category_selected = false
+                state.title_selected = false
+                state.writeForm.category_id = ""
+                state.writeForm.title_id = ""
             }
         },
         setCategorySelected(state, action){
             state.category_selected = action.payload
-            if(action.payload !== undefined){
+            if(action.payload !== false && action.payload !== undefined && action.payload !== null){
                 state.writeForm.category_id = action.payload.id
             }else{
                 state.writeForm.category_id = ""
+                // Clear dependent selection
+                state.title_selected = false
+                state.writeForm.title_id = ""
             }
         },
         setTitleSelected(state, action){
             state.title_selected = action.payload
-            if(action.payload !== undefined){
+            if(action.payload !== false && action.payload !== undefined && action.payload !== null){
                 state.writeForm.title_id = action.payload.id
             }else{
                 state.writeForm.title_id = ""

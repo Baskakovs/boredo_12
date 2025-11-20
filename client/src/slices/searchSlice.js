@@ -4,7 +4,7 @@ const searchSlice = createSlice({
   name: 'search',
   initialState: {
     countries: [],
-    categories: "",
+    categories: [],
     titles: [],
     countrySelected: false,
     categorySelected: false,
@@ -13,6 +13,9 @@ const searchSlice = createSlice({
   reducers: {
     setCountries: (state, action) => {
       state.countries.push(action.payload);
+    },
+    setAllCountries: (state, action) => {
+      state.countries = action.payload;
     },
     setCountrySelected: (state, action) => {
         if(action.payload == state.countrySelected){
@@ -59,9 +62,10 @@ const searchSlice = createSlice({
         state.titleSelected = false
         state.categories = []
         state.titles = []
+        state.countries = []
     }
   },
 });
 
-export const { setCountries, setCountrySelected, setCategories, setCategorySelected, setTitleSelected, setTitles, resetSearch } = searchSlice.actions;
+export const { setCountries, setAllCountries, setCountrySelected, setCategories, setCategorySelected, setTitleSelected, setTitles, resetSearch } = searchSlice.actions;
 export default searchSlice.reducer;

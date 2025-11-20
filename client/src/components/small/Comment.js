@@ -45,7 +45,7 @@ const ReplyButton = styled(NoBorderBlueButton)`
   color: #BFBFBF;
   `
 
-function Comment({ user, date, text, id }) {
+function Comment({ user, date, text, id, post_id }) {
   const [writeComment, setWriteComment] = useState(false)
 
   function handleWriteComment() {
@@ -65,7 +65,10 @@ function Comment({ user, date, text, id }) {
       {
         !writeComment ? null : <ReplyContainer
         action={"subcomment"}
-        comment_id={id}/>
+        comment_id={id}
+        post_id={post_id}
+        onClose={() => setWriteComment(false)}
+        />
       }
     </CommentBox>
   )

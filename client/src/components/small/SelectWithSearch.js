@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const Box = styled.div`
@@ -31,13 +31,45 @@ overflow-y: auto;
 `
 
 function SelectWithSearch({ options, name, value, placeholder, handleSelectChange }) {
+  const [inputValue, setInputValue] = useState("");
+
+  function handleChange(e) {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    handleSelectChange(e);
+  }
+  
+  // Clear input when user focuses so all options are visible in dropdown
+  function handleFocus(e) {
+    // Clear the input value so datalist shows all options
+    setInputValue("");
+  }
+  
+  // Handle when user selects from datalist dropdown
+  function handleInput(e) {
+    const selectedValue = e.target.value;
+    if (selectedValue) {
+      setInputValue(selectedValue);
+      handleSelectChange(e);
+    }
+  }
+  
+  // Clear input when user clicks away (so placeholder shows selected value)
+  function handleBlur(e) {
+    // Clear input so placeholder shows the selected value
+    setInputValue("");
+  }
+
   return (
     <Box>
       <SelectInput
         type="text"
         name={name}
-        value={value}
-        onChange={(e) => handleSelectChange(e)}
+        value={inputValue}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onInput={handleInput}
         list={name}
         placeholder={placeholder}
         key={name}

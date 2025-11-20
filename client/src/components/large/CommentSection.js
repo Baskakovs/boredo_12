@@ -92,6 +92,7 @@ function CommentSection() {
         <ReplyContainer
         action={"comment"}
         post_id={params.id}
+        onClose={() => setIsComment(false)}
         />
       }
       <CommentContainer>
@@ -103,6 +104,7 @@ function CommentSection() {
                 text={comment.text}
                 date={comment.created_at}
                 user={comment.user.name}
+                post_id={params.id}
               />
               {comment.subcomments.length > 0 &&
                 comment.subcomments.map((subcomment) => (

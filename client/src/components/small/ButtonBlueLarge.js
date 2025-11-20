@@ -9,7 +9,9 @@ padding: 10px;
 gap: 10px;
 
 width: 338px;
+max-width: 100%;
 height: 48px;
+box-sizing: border-box;
 
 background: #609CFA;
 border-radius: 4px;
@@ -19,10 +21,15 @@ font-style: normal;
 font-weight: 600;
 font-size: 16px;
 line-height: 19px;
-display: flex;
 align-items: center;
 text-align: center;
 
 color: #FFFFFF;
+cursor: pointer;
+
+@media (max-width: 400px) {
+  width: 100%;
+  padding: 10px 20px;
+}
 `
 export default ButtonBlueLarge;
