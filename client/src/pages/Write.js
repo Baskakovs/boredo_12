@@ -224,28 +224,37 @@ fetch(`/geographies/${geographySelected.id}/categories/${categorySelected.id}/ti
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: 'include',
             body: JSON.stringify({
-                text: writeForm.text,
-                published: writeForm.published,
-                geography_id: geographySelected.id,
-                category_id: categorySelected.id,
-                title_id: titleSelected.id,
-                user_id: user_id
+                post: {
+                    text: writeForm.text,
+                    published: writeForm.published,
+                    geography_id: geographySelected.id,
+                    category_id: categorySelected.id,
+                    title_id: titleSelected.id,
+                    user_id: user_id
+                }
             })
         })
-        .then((res) =>{ if(res.ok){
-            res.json().then((post) => {
-                history.push(`/`)
-                dispatch(resetWriteForm({}))
-            })
-        }else{
-            res.json().then((errors) => {
-                dispatch(setErrors(errors.errors))
-                dispatch(setCountrySelected(false))
-                dispatch(setCategorySelected(false))
-                dispatch(setTitleSelected(false))
-            })
-        }
+        .then((res) =>{ 
+            if(res.ok){
+                res.json().then((post) => {
+                    history.push(`/`)
+                    dispatch(resetWriteForm({}))
+                })
+            } else {
+                res.json().then((errors) => {
+                    dispatch(setErrors(errors.errors))
+                    // Don't clear selections on error - let user fix the issue
+                    // dispatch(setCountrySelected(false))
+                    // dispatch(setCategorySelected(false))
+                    // dispatch(setTitleSelected(false))
+                })
+            }
+        })
+        .catch((error) => {
+            console.error("Error publishing post:", error)
+            dispatch(setErrors(["Network error. Please try again."]))
         })
       }
     }

@@ -214,13 +214,16 @@ fetch(`/geographies/${geographySelected.id}/categories/${categorySelected.id}/ti
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: 'include',
             body: JSON.stringify({
-                text: writeForm.text,
-                published: writeForm.published,
-                geography_id: geographySelected.id,
-                category_id: categorySelected.id,
-                title_id: titleSelected.id,
-                user_id: user_id
+                post: {
+                    text: writeForm.text,
+                    published: writeForm.published,
+                    geography_id: geographySelected.id,
+                    category_id: categorySelected.id,
+                    title_id: titleSelected.id,
+                    user_id: user_id
+                }
             })
         })
         .then((res) =>{ if(res.ok){

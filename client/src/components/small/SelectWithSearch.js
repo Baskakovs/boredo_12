@@ -32,16 +32,22 @@ overflow-y: auto;
 
 function SelectWithSearch({ options, name, value, placeholder, handleSelectChange }) {
   const [inputValue, setInputValue] = useState("");
+  const isBlurringRef = useRef(false);
 
   function handleChange(e) {
     const newValue = e.target.value;
     setInputValue(newValue);
-    handleSelectChange(e);
+    // Only call handleSelectChange if we're not in the middle of a blur operation
+    // This prevents clearing the selection when input is cleared on blur
+    if (!isBlurringRef.current || newValue !== "") {
+      handleSelectChange(e);
+    }
   }
   
   // Clear input when user focuses so all options are visible in dropdown
   function handleFocus(e) {
     // Clear the input value so datalist shows all options
+    isBlurringRef.current = false;
     setInputValue("");
   }
   
@@ -49,6 +55,7 @@ function SelectWithSearch({ options, name, value, placeholder, handleSelectChang
   function handleInput(e) {
     const selectedValue = e.target.value;
     if (selectedValue) {
+      isBlurringRef.current = false;
       setInputValue(selectedValue);
       handleSelectChange(e);
     }
@@ -56,8 +63,33 @@ function SelectWithSearch({ options, name, value, placeholder, handleSelectChang
   
   // Clear input when user clicks away (so placeholder shows selected value)
   function handleBlur(e) {
-    // Clear input so placeholder shows the selected value
-    setInputValue("");
+    // Mark that we're blurring to prevent handleChange from clearing selection
+    isBlurringRef.current = true;
+    
+    // Use a small delay to prevent clearing if user is clicking a button
+    // The relatedTarget check helps prevent clearing when clicking buttons
+    const relatedTarget = e.relatedTarget;
+    const isClickingButton = relatedTarget && (
+      relatedTarget.tagName === 'BUTTON' || 
+      relatedTarget.closest('button') !== null
+    );
+    
+    if (!isClickingButton) {
+      // Only clear if not clicking a button, use timeout to allow button click to process first
+      setTimeout(() => {
+        // Double-check that we're still blurred and didn't refocus
+        if (document.activeElement !== e.target) {
+          setInputValue("");
+        }
+        // Reset the blurring flag after a short delay
+        setTimeout(() => {
+          isBlurringRef.current = false;
+        }, 50);
+      }, 150);
+    } else {
+      // If clicking a button, don't clear and reset flag immediately
+      isBlurringRef.current = false;
+    }
   }
 
   return (
